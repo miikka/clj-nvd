@@ -1,3 +1,4 @@
 {:deps {nvd-clojure                  {:mvn/version "1.1.1"}
         metosin/jsonista             {:mvn/version "0.2.3"}
+        org.clojure/tools.cli        {:mvn/version "0.4.2"}
         org.clojure/tools.deps.alpha {:mvn/version "0.7.527" :exclusions [org.slf4j/slf4j-nop]}}}

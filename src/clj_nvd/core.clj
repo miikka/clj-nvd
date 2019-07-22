@@ -1,5 +1,7 @@
 (ns clj-nvd.core
   (:require [clojure.java.io :as io]
+            [clojure.string :as string]
+            [clojure.tools.cli :as cli]
             [clojure.tools.deps.alpha :as deps]
             [clojure.tools.deps.alpha.reader :as deps.reader]
             [jsonista.core :as json]
@@ -7,19 +9,29 @@
             [nvd.task.purge-database]
             [nvd.task.update-database]))
 
-(defn make-classpath []
-  (let [lib-map (-> (deps.reader/read-deps [(io/file "deps.edn")])
-                    (deps/resolve-deps nil))]
+(defn make-classpath [aliases]
+  (let [deps-map (deps.reader/read-deps (deps.reader/default-deps))
+        args-map (deps/combine-aliases deps-map aliases)
+        lib-map  (deps/resolve-deps deps-map args-map)]
     (mapcat :paths (vals lib-map))))
 
-(defn -main [command & args]
+(defn parse-aliases [alias-str]
+  (map keyword (string/split alias-str #":")))
+
+(def +cli-options+
+  [["-A" nil "Colon-separated list of deps.edn aliases"
+    :id :aliases
+    :required "ALIASES"
+    :parse-fn parse-aliases]])
+
+(defn run-nvd [aliases command args]
   (let [config (try
-                  (read-string (slurp "clj-nvd.edn"))
-                  (catch java.io.FileNotFoundException _
-                    nil))
+                 (read-string (slurp "clj-nvd.edn"))
+                 (catch java.io.FileNotFoundException _
+                   nil))
         temp-file (java.io.File/createTempFile "clj-nvd" ".json")
         path (.getAbsolutePath temp-file)
-        classpath (make-classpath)
+        classpath (make-classpath aliases)
         opts {:nvd       config
               :classpath classpath
               :cmd-args  args}]
@@ -31,3 +43,14 @@
       (do
         (.println *err* (str "No such command: " command))
         (System/exit 1)))))
+
+(defn -main [& args]
+  (let [{:keys [options arguments errors]} (cli/parse-opts args +cli-options+)]
+    (cond
+      errors
+      (do
+        (.println *err* (string/join \newline errors))
+        (System/exit 1))
+
+      true
+      (run-nvd (:aliases options) (first arguments) (rest arguments)))))
