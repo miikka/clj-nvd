@@ -8,6 +8,8 @@ Check your deps.edn dependencies against known security vulnerabilities in [Nati
 
 ### Installation
 
+*clj-nvd has not been released yet, so you'll have to use a git dependency.*
+
 ```sh
 clojure -Sdeps '{:deps {clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git" :sha "141d54f5304e53f6caa6e3de1677f3cfb04091f4"}}}' -m clj-nvd.core check
 ```
