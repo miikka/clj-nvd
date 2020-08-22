@@ -1,16 +1,17 @@
 (ns clj-nvd.core
-  (:require [clojure.java.io :as io]
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             [clojure.tools.cli :as cli]
             [clojure.tools.deps.alpha :as deps]
-            [clojure.tools.deps.alpha.reader :as deps.reader]
             [jsonista.core :as json]
             [nvd.task.check]
             [nvd.task.purge-database]
             [nvd.task.update-database]))
 
+(defn read-deps []
+  (deps/merge-edns ((juxt :root-edn :user-edn :project-edn) (deps/find-edn-maps))))
+
 (defn make-classpath [aliases]
-  (let [deps-map (deps.reader/read-deps (deps.reader/default-deps))
+  (let [deps-map (read-deps)
         args-map (deps/combine-aliases deps-map aliases)
         lib-map  (deps/resolve-deps deps-map args-map)]
     (mapcat :paths (vals lib-map))))
