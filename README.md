@@ -11,15 +11,15 @@ Check your deps.edn dependencies against known security vulnerabilities in [Nati
 *clj-nvd has not been released yet, so you'll have to use a git dependency.*
 
 ```sh
-clojure -Sdeps '{:deps {clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git" :sha "f2ec98699e057a379baf170cb49cf7ad76874a70"}}}' -m clj-nvd.core check
+clojure -Sdeps '{:deps {clj-nvd/clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git" :sha "f2ec98699e057a379baf170cb49cf7ad76874a70"}}}' -m clj-nvd.core check
 ```
 
 Alternatively, add clj-nvd as a git dependency to your `deps.edn`:
 
 ```clojure
 {:aliases
- {:clj-nvd {:extra-deps {clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git"
-                                  :sha "f2ec98699e057a379baf170cb49cf7ad76874a70"}}
+ {:clj-nvd {:extra-deps {clj-nvd/clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git"
+                                          :sha "f2ec98699e057a379baf170cb49cf7ad76874a70"}}
             :main-opts ["-m" "clj-nvd.core"]}}}
 ```
 
