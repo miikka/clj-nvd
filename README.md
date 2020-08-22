@@ -11,7 +11,7 @@ Check your deps.edn dependencies against known security vulnerabilities in [Nati
 *clj-nvd has not been released yet, so you'll have to use a git dependency.*
 
 ```sh
-clojure -Sdeps '{:deps {clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git" :sha "141d54f5304e53f6caa6e3de1677f3cfb04091f4"}}}' -m clj-nvd.core check
+clojure -Sdeps '{:deps {clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git" :sha "f2ec98699e057a379baf170cb49cf7ad76874a70"}}}' -m clj-nvd.core check
 ```
 
 Alternatively, add clj-nvd as a git dependency to your `deps.edn`:
@@ -19,7 +19,7 @@ Alternatively, add clj-nvd as a git dependency to your `deps.edn`:
 ```clojure
 {:aliases
  {:clj-nvd {:extra-deps {clj-nvd {:git/url "https://github.com/miikka/clj-nvd.git"
-                                  :sha "141d54f5304e53f6caa6e3de1677f3cfb04091f4"}}
+                                  :sha "f2ec98699e057a379baf170cb49cf7ad76874a70"}}
             :main-opts ["-m" "clj-nvd.core"]}}}
 ```
 
@@ -43,7 +43,7 @@ The configuration is loaded from the file `clj-nvd.edn`. See [configuration opti
 
 ## Attribution
 
-clj-nvd is just small wrapper on [lein-nvd][lein-nvd] by Richard Hull, which in turns relies on [DependencyCheck][depcheck] Jeremy Long. To understand how to use [tools.deps.alpha][tools.deps], I looked at the source code of [Pack][pack] and [Depot][depot].
+clj-nvd is just small wrapper on [lein-nvd][lein-nvd] by Richard Hull, which in turns relies on [DependencyCheck][depcheck] by Jeremy Long. To understand how to use [tools.deps.alpha][tools.deps], I looked at the source code of [Pack][pack] and [Depot][depot].
 
 [lein-nvd]: https://github.com/rm-hull/lein-nvd
 [pack]: https://github.com/juxt/pack.alpha
@@ -53,6 +53,6 @@ clj-nvd is just small wrapper on [lein-nvd][lein-nvd] by Richard Hull, which in 
 
 ## License
 
-Copyright © 2019 Metosin Oy.
+Copyright © Metosin Oy and contributors.
 
 Distributed under the Eclipse Public License 2.0.
